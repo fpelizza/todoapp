@@ -28,6 +28,11 @@ public class TaskController {
         return this.taskService.getAll();
     }
 
+    @GetMapping("/archived")
+    public List<Task> getArchivedTasks() {
+        return this.taskService.getArchivedTasks();
+    }
+
     @GetMapping("/status/{status}")
     public List<Task> getTasksByStatus(@PathVariable("status")TaskStatus status){
         return this.taskService.getAllByStatus(status);
@@ -36,6 +41,12 @@ public class TaskController {
     @PatchMapping("/mark_as_finished/{id}")
     public ResponseEntity<Void> markAsFinished(@PathVariable("id") Long id){
         this.taskService.updateTaskAsFinished(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/archive/{id}/{archived}")
+    public ResponseEntity<Void> markArchived(@PathVariable("id") Long id, @PathVariable("archived") Boolean archived){
+        this.taskService.updateArchivedTask(id,archived);
         return ResponseEntity.noContent().build();
     }
 

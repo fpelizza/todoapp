@@ -17,4 +17,5 @@ public class Task {
     private LocalDateTime eta;
     private Boolean finished;
     private TaskStatus taskStatus;
+    private Boolean archived;
 }

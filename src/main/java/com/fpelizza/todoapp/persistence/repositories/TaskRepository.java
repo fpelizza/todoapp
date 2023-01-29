@@ -13,8 +13,15 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
 
     public List<Task> findAllByTaskStatus(TaskStatus status);
 
+    @Query(value = "SELECT t.* FROM TASK t WHERE t.archived=true", nativeQuery = true)
+    public List<Task> findAllArchivedTasks();
+
     @Modifying
     @Query(value = "UPDATE TASK SET FINISHED=true WHERE ID=:id", nativeQuery = true)
     public void markTaskAsFinished(@Param("id") Long id);
+
+    @Modifying
+    @Query(value = "UPDATE TASK SET ARCHIVED=:archived WHERE ID=:id", nativeQuery = true)
+    public void markTaskAsArchived(@Param("id") Long id, @Param("archived") Boolean archived);
 
 }

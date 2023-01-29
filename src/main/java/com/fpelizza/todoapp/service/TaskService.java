@@ -33,6 +33,10 @@ public class TaskService {
         return this.repository.findAll();
     }
 
+    public List<Task> getArchivedTasks() {
+        return this.repository.findAllArchivedTasks();
+    }
+
     public List<Task> getAllByStatus(TaskStatus status){
         return this.repository.findAllByTaskStatus(status);
     }
@@ -44,6 +48,15 @@ public class TaskService {
             throw new ToDoExceptions("Task not found", HttpStatus.NOT_FOUND);
         }
         this.repository.markTaskAsFinished(id);
+    }
+
+    @Transactional
+    public void updateArchivedTask(Long id, Boolean archived){
+        Optional<Task> optionalTask = this.repository.findById(id);
+        if (optionalTask.isEmpty()){
+            throw new ToDoExceptions("Task not found", HttpStatus.NOT_FOUND);
+        }
+        this.repository.markTaskAsArchived(id,archived);
     }
 
     public void deleteById(Long id){
